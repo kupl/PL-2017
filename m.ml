@@ -57,13 +57,14 @@ let apply_mem : mem -> loc -> value
 let counter = ref 0
 let new_location () = counter:=!counter+1;!counter
 
-exception Not_implemented
+exception NotImplemented
+exception UndefinedSemantics
 
 (*****************************************************************)
 (* TODO: Implement the eval function. Modify this function only. *)
 (*****************************************************************)
 let rec eval : exp -> env -> mem -> value * mem
-=fun exp env mem -> raise Not_implemented
+=fun exp env mem -> raise NotImplemented
 
 (* driver code *)
 let run : program -> value
