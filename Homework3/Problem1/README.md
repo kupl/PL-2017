@@ -1,5 +1,4 @@
-# PL-2017-HW3-1
-Skeleton code for Problem 1 of Homework 3
+# PL-2017-HW3-Problem1
 
 ## Goal
 The goal of this homework is to implement an interpreter for the language with recursive procedures and explicit references.
