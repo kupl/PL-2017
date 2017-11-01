@@ -43,6 +43,12 @@ let new_location () = counter:=!counter+1; Loc (!counter)
 
 exception NotImplemented
 
+let rec eval_aexp : aexp -> env -> mem -> int
+=fun a env mem -> raise NotImplemented
+
+and eval_bexp : bexp -> env -> mem -> bool
+=fun b env mem -> raise NotImplemented 
+
 let rec eval : stmt -> env -> mem -> mem
 =fun s env mem -> 
   match s with
