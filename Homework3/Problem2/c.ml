@@ -30,7 +30,7 @@ type loc = Loc of int
 type env = var -> loc
 type mem = loc -> value
 
-let empty_env = fun x -> raise (Failure "Environment is empty")
+let empty_env = fun x -> raise (Failure ("Undefined variable: " ^ x))
 let extend_env (x,v) e = fun y -> if x = y then v else (e y)
 let apply_env e x = e x
 
@@ -44,10 +44,10 @@ let new_location () = counter:=!counter+1; Loc (!counter)
 exception NotImplemented
 
 let rec eval_aexp : aexp -> env -> mem -> int
-=fun a env mem -> raise NotImplemented
+=fun a env mem -> raise NotImplemented (* TODO *)
 
 and eval_bexp : bexp -> env -> mem -> bool
-=fun b env mem -> raise NotImplemented 
+=fun b env mem -> raise NotImplemented  (* TODO *)
 
 let rec eval : stmt -> env -> mem -> mem
 =fun s env mem -> 
