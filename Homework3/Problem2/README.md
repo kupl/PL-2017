@@ -7,8 +7,6 @@ The syntax and semantics of the language are defined in "hw3.pdf".
 ## Specification
 - Implement the ***eval***, ***eval_aexp***, ***eval_bexp*** functions in the "c.ml".
 - Do not modify the types and names of items in the "c.ml" except for the those functions.
-- Use the OCaml's *read_int* function for implementing the *read* expression:
-  - http://caml.inria.fr/pub/docs/manual-ocaml/libref/Pervasives.html
 - You can use the environment and memory implementation for the interpreter which are provided as built-in.
 
 ## Compilation and Execution
