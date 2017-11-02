@@ -26,9 +26,9 @@ type value =
   | Closure of var * exp * env 
   | RecClosure of var * var * exp * env
   | Loc of loc
-and env = var -> value
 and loc = int
-and mem = loc -> value
+and env = (var * value) list
+and mem = (loc * value) list
 
 (* conversion of value to string *)
 let value2str v = 
@@ -40,18 +40,20 @@ let value2str v =
   | RecClosure (f,x,e,env) -> "RecClosure "^f
 
 (* environment *)
-let empty_env : env = fun x -> raise (Failure "Environment is empty")
-let extend_env : var * value -> env -> env 
-=fun (x,v) e -> fun y -> if x = y then v else (e y)
-let apply_env : env -> var -> value 
-=fun e x -> e x
+let empty_env = []
+let extend_env (x,v) e = (x,v)::e
+let rec apply_env e x = 
+  match e with
+  | [] -> raise (Failure (x ^ " is unbound in Env"))
+  | (y,v)::tl -> if x = y then v else apply_env tl x
 
 (* memory *)
-let empty_mem : mem = fun _ -> raise (Failure "Memory is empty")
-let extend_mem : loc * value -> mem -> mem
-=fun (l,v) m -> fun y -> if l = y then v else (m y)
-let apply_mem : mem -> loc -> value 
-=fun m l -> m l
+let empty_mem = [] 
+let extend_mem (l,v) m = (l,v)::m
+let rec apply_mem m l = 
+  match m with
+  | [] -> raise (Failure ("Location " ^ string_of_int l ^ " is unbound in Mem"))
+  | (y,v)::tl -> if l = y then v else apply_mem tl l
 
 (* use the function 'new_location' to generate a fresh memory location *)
 let counter = ref 0

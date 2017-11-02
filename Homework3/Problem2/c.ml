@@ -27,16 +27,24 @@ type program = stmt
 
 type value = Int of int
 type loc = Loc of int 
-type env = var -> loc
-type mem = loc -> value
+type env = (var * loc) list
+type mem = (loc * value) list
 
-let empty_env = fun x -> raise (Failure ("Undefined variable: " ^ x))
-let extend_env (x,v) e = fun y -> if x = y then v else (e y)
-let apply_env e x = e x
+(* environment *)
+let empty_env = []
+let extend_env (x,v) e = (x,v)::e
+let rec apply_env e x = 
+  match e with
+  | [] -> raise (Failure (x ^ " is unbound in Env"))
+  | (y,v)::tl -> if x = y then v else apply_env tl x
 
-let empty_mem = fun _ -> raise (Failure "Memory is empty")
-let extend_mem (l,v) m = fun y -> if l = y then v else (m y)
-let apply_mem m l = m l
+(* memory *)
+let empty_mem = [] 
+let extend_mem (l,v) m = (l,v)::m
+let rec apply_mem m l = 
+  match m with
+  | [] -> raise (Failure ("Location " ^ string_of_int ((fun (Loc n) -> n) l) ^ " is unbound in Mem"))
+  | (y,v)::tl -> if l = y then v else apply_mem tl l
 
 let counter = ref 0
 let new_location () = counter:=!counter+1; Loc (!counter)
